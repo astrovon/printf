@@ -54,7 +54,7 @@ int _printf(char *format, ...)
 			}
 			else if (*format == 's')
 			{
-				str_arg += va_arg(args, char *);
+				str_arg = va_arg(args, char *);
 				if (str_arg == NULL)
 				{
 					str_arg = "(null)";
