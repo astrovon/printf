@@ -1,19 +1,19 @@
-#include "main.h"
-
 /**
- * print_int - Prins an integer
- * @types: Lists of arguments
- * @buffer: Buffer array to take print
- * Return: Number of chars printed
+ * print_int - prints an integer
+ * @types: lists of arguments
+ * @size: specifies size
+ * @buffer: buffer array to take print
+ * Return: number of chars printed
  */
 int print_int(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	int i = BUFF_SIZE - 4;
+	int i = BUFF_SIZE - 2;
 	int is_negative = 0;
 	long int n = va_arg(types, long int);
 	unsigned long int num;
 
+	n = convert_size_number(n, size);
 
 	if (n == 0)
 		buffer[i--] = '0';
@@ -35,5 +35,5 @@ int print_int(va_list types, char buffer[],
 
 	i++;
 
-	return (write_number(is_negative, i, buffer));
+	return (write_number(is_negative, i, buffer,size));
 }
