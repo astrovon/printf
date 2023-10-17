@@ -3,32 +3,32 @@
 #include "print_str.c"
 
 /**
- * print_number - prints a number to standard output
+ * print_unsigned_number - prints a nummber to stdout
  * @n: the number to print
- * Return: the number of characters printed
+ * @base: the base of the conversion
+ * Return: the number of tyhe characters printed
  */
 
-int print_number(int n)
+int print_unsigned_number(unsigned int n, unsigned int base)
 {
 	int count = 0;
+	char digit;
 
-	if (n < 0)
+	if (n / base)
 	{
-		count += print_char('-');
-		n = -n;
+		count += print_unsigned_number(n / base, base);
 	}
-	if (n / 10)
-	{
-		count += print_number(n / 10);
-		count += print_char(n % 10 + '0');
-	}
+
+	digit = (n % base < 10) ? (n % base + '0') : (n % base - 10 + 'a');
+
+	count += print_char(digit);
 
 	return (count);
 }
 
 /**
  * print_conversion - handles a conversion specifier
- * @specifier: the soecifier
+ * @specifier: handles the conversion specifier
  * @args: the va list of arguments
  * Return: the number of characters printed
  */
@@ -39,12 +39,11 @@ int print_conversion(char specifier, va_list args)
 
 	if (specifier == 'c')
 	{
-		count += print_char(va_arg(args, int));
+		count += print_char(va_args(arg, int));
 	}
-	if (specifier == 's')
+	else if (specifier == 's')
 	{
-		char *str_arg = va_arg(args, char *);
-
+		char *str_arg = va_args(arg, char *);
 		if (str_arg == NULL)
 			str_arg = "(null)";
 		count += print_str(str_arg);
@@ -55,18 +54,22 @@ int print_conversion(char specifier, va_list args)
 	}
 	else if (specifier == 'd' || specifier == 'i')
 	{
-		int int_arg = va_arg(args, int);
-
-		count += print_number(int_arg);
+		int int_arg = va_args(arg, int);
+		count += print_unsigned number(int_arg, 10);
+	}
+	else if (specifier == 'b')
+	{
+		unsigned int binary_arg = va_args(arg, unsigned int);
+		count += print_unsigned_number(args, 2);
 	}
 
 	return (count);
 }
 
 /**
- * _printf - prints to stdout according to format
- * @format: the format of what to be printed
- * Return: the number of printed item
+ * _printf - a function that takes a format string and other variables
+ * @format: the format of the string
+ * Return: the number of characters printed
  */
 
 int _printf(const char *format, ...)
@@ -91,6 +94,5 @@ int _printf(const char *format, ...)
 	}
 
 	va_end(args);
-
 	return (count);
 }
