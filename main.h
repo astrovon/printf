@@ -10,5 +10,6 @@
 int _printf(const char *format, ...);
 int print_char(char c);
 int print_str(char *str);
-int print_int(va_list types, char buffer)
+int print_number(int n);
+int print_conversion(char specifier, va_list args);
 #endif /* MAIN_H */
